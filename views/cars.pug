@@ -1,0 +1,61 @@
+//- extends layout
+
+//- block content
+//-   h1= title
+//-   p Welcome to the cars pug
+//-    div(class="container-fluid")
+//-         div(class="row")
+//-             -
+//-                 let cars  = [
+//-                     {
+//-                         "Itemname": "cars sandwich",
+//-                         "Quantity": 90,
+//-                         "price": "Fifteen USD"
+//-                     },
+//-                     {
+//-                         "Itemname": "cars chicken ",
+//-                         "Quantity": 73,
+//-                         "price": "nine USD"
+//-                     },
+//-                     {
+//-                         "Itemname": "cars lamb",
+//-                         "Quantity": 10,
+//-                         "price": "Twenty  USD"
+//-                     },                    
+//-                 ]
+//-             each v,index in cars
+//-                 div(class="col-sm-2" onclick=`buy(${index})`) #{v.Itemname}
+//-                 div(class="col-sm-2" onclick=`buy(${index})`) #{v.Quantity}
+//-                 div(class="col-sm-2" onclick=`buy(${index})`) #{v.price}
+//-   script.                
+//-         function buy(intemNo)
+//-         {
+//-               alert(`you purchased Item ${intemNo+1}`)
+//-         }
+ 
+  
+  extends layout
+
+block content
+  - let create = `dispatch(\"cars/create\")`
+     //button.btn(class="btn-primary m1-1", onclick=create) Create
+  h1= title
+  - let cars=results;
+  div(class="container-fluid mt-3")
+   div(class="row m-1")
+    each element in cars
+     - let destination=`buy(\"/cars/update?id=${element._id}\")`
+     //- let detail=`buy(\"/cars/detail?id=${element._id}\")`
+     //- let del=`buy(\"/cars/delete?id=${element._id}\")`
+     div(class="col-sm-6 bg-secondary m-1 p-3") cars #{element.Itemname} - #{element.Quantity} - #{element.price}
+        button.btn( class="btn-info ml-2", onclick=destination ) Update
+     // button.btn( class="btn-dark ml-2", onclick=detail ) Get Detail
+     // button.btn( class="btn-warning ml-2", onclick=del ) Delete
+  
+   script.
+    function buy(path){
+        window.location.href=path
+
+        //alert(`You purchased Item ${a+1}`)
+      }
+  

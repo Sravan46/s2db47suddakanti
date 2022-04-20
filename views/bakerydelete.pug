@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  h1= title
+
+  if (toShow == null)
+    h2 No instance to delete
+  else
+    - let carsid = toShow._id
+    - let carsItemname = toShow.Itemname
+    - let carsQuantity = toShow.Quantity
+    - let carsprice = toShow.price
+    - let actionid = "/resource/cars/" + carsid
+
+    script let actionid = "#{actionid}"
+    div
+      div.row
+        div(class='carsAttr mr-3') cars ID is:
+        div(class='newAttr') #{carsid}
+      div.row
+        div(class='carsAttr mr-3') cars Itemname is:
+        div(class='newAttr') #{carsItemname}
+      div.row
+        div(class='carsAttr mr-3') cars Quantity is:
+        div(class='newAttr') #{carsQuantity}
+      div.row
+        div(class='carsAttr mr-3') cars price is:
+        div(class='newAttr') #{carsprice}
+      
+
+    button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+
+  script.
+    function cancel() {
+      // Go back to the home page for the costume collection
+      window.location.href='/cars'
+    }
+  script.
+    function deleteOnid() {
+      console.log("Deleting the Resource")
+      // delete first
+      fetch(actionid, {
+        method: 'DELETE'      // Don't need a body for the delete
+      }).then((resp) => {
+        return resp.json();   // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Delete succeded")
+        window.location.href='/cars'
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Delete failed " + error )
+      });
+    }
+
+    
